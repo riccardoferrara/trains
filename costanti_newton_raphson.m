@@ -1,0 +1,7 @@
+%calcolo della matrice Av
+Av = Mv + Cv*dt/2 + Kv*(dt^2)/6;
+% %calcolo il veottore delle forze esterne
+% Fv = Mv*9.8*ones(10,1);
+% Fv(2) = 0;
+% Fv(4) = 0;
+% Fv(6) = 0;

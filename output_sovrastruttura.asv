@@ -1,0 +1,11 @@
+%scrivo gli output solo per gli step da salvare
+if mod(i,floor(steps/Nsaving_steps))==0
+    Usk(1:s+2*n-2,gg) = Us;
+    Us1k(1:s+2*n-2,gg) = Us1;
+    Us2k(1:s+2*n-2,gg) = Us2;
+    gg = gg+1;
+    
+    Us = fopen('us','w');
+    fprint(Us,'prova',Us)
+    fclose(Us);
+end

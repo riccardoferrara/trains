@@ -1,0 +1,13 @@
+function [ N ] = deformata_pr_nielsen(x, i, NN)
+%deformata_pr
+%
+%
+%conoscendo i parametri random della deformata calcola il valore
+%del difetto in corrispondenza delle 4 ruote
+%
+%
+i = i - stepsPRELOAD;
+for k = 1:4;
+    %inizializzazione variabile
+    N(k,1) = NN(i,k);
+end

@@ -1,0 +1,89 @@
+%calcolo un vettore che associa ad ogni istante temporale il valore della
+%difettosità della rotaia
+
+%fisso il seme random per comparare le simulazioni
+% randn('state',0)
+% rand('state',0)
+
+%scelgo il numero di wavelenghts per ogni banda
+M = 50;
+
+%definisco il vettore delle fasi random
+fk = rand(N_difetti,M)*2*pi;
+
+wupper = 2*pi*V/Llower;
+wlower = 2*pi*V/Lupper;
+
+
+
+
+
+
+% % -----------------------------------------------------------------------
+
+% % %scelgo l'intervallo di ogni banda espresso in m
+% % int = 0.1;
+% % int = dl;
+% 
+% for ii = 1:4
+%     for k = 1:(steps-stepsPRELOAD)+1;
+%         %inizializzazione variabile
+%         NN(k,ii) = 0;
+%         for i = 1:N_difetti
+% %             dk = 2*pi/M*( 1/(-int/2) - 1/(+int/2) );
+%             NN(k,ii) = NN(k,ii) + ak(i,1)*sin( (2*pi/(lambdak(i,1)))*(V*k*dt+distanze_ruote(ii,1)) + fk(i,1));
+% %             for j = 1:M
+% %                 NN(k,ii) = NN(k,ii) + ak(i,1)*sin( (2*pi/(lambdak(i,1)-int/2) + dk*(j-1))*(V*k*dt+distanze_ruote(ii,1)) + fk(i,j));
+% %             end
+%         end
+%         disp(k)
+%     end
+% end
+
+%RICOSTRUZIONE CURVA DIFETTI IN BANDE IN TERZI DI OTTAVA
+%calcolo delle varie frequenze
+kk = 1;
+wk(kk,1) = wlower;
+lambdak(kk,1) = 2*pi*V/wk(kk,1);
+while wk(kk,1)*2^(1/3) < wupper
+    kk = kk + 1;
+    wk(kk,1) = wk(kk-1,1)*2^(1/3);
+    lambdak(kk,1) = 2*pi*V/wk(kk,1);
+end
+wk(:,2) = wk(:,1)*2^(-1/6);
+wk(:,3) = wk(:,1)*2^(1/6);
+
+N_difetti = kk;
+
+% % DIFETTI ISO3095
+% %
+% % -----------------------------------------------------------------------
+for kk = 1:N_difetti
+    %passo il lambda in mm
+    lambda = lambdak(kk,1)*1000;
+    if lambda < 10
+        lambda = 10;
+    end
+ 
+    % applico la iso per trovare il livello di db
+    devk = 27.176 - 18.419*log10(1000/lambda); %dB ref mum
+    %trovo l'ampiezza a partire dai decibel
+    ak(kk,1) = (2/M)^0.5*10^-6*(10^(devk/20)); %m
+%     ak(kk,1) = 1*(2/N_difetti)^0.5*10^-6*(10^(devk/20)); %m
+end
+
+for ii = 1:4
+    for k = 1:(steps-stepsPRELOAD)+1;
+        %inizializzazione variabile
+        NN(k,ii) = 0;
+        for i = 1:N_difetti
+            dk = (wk(i,3)-wk(i,2))/M;
+%             NN(k,ii) = NN(k,ii) + ak(i,1)*sin( (2*pi/(lambdak(i,1)))*(V*k*dt+distanze_ruote(ii,1)) + fk(i,1));
+            for j = 1:M
+                NN(k,ii) = NN(k,ii) + ak(i,1)*sin( (wk(i,2) + dk*(j-1)) * (k*dt + distanze_ruote(ii,1)) + fk(i,j) );
+            end
+        end
+        disp(k)
+    end
+end
+disp(k);
