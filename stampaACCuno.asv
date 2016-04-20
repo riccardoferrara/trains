@@ -1,0 +1,36 @@
+plot(US2(1,1:size(US2,2)),'DisplayName','US2(16,1:2079)','YDataSource','US2(16,1:2079)');figure(gcf)
+axis([0,ss,-150,150])
+
+
+
+
+
+%prendere il punto 884 per buonissima 2
+
+%risultati per di Mino con l=lp
+% PUNTO = 61;
+% rd = (((PUNTO-1)*INTbeams-Pbeams)+1);
+% plot(US2(rd,1:size(US2,2)))
+%     xlabel('timesteps')
+%     title(['railway-acceleration [m/s^2] at ',num2str(interasse*PUNTO-0.13),' m'])
+%     axis([0,ss,-150,150])
+
+% figure
+% plot(Us2k(s+PUNTO,:))
+%     xlabel('timesteps')
+%     title(['sleeper-acceleration [m/s^2] at ',num2str(PUNTO*interasse),' m'])
+%     axis([0,ss,-70,70])
+
+
+% %traversa
+% PUNTO = 61;
+% rd = (((PUNTO-1)*INTbeams-Pbeams)+1);
+% plot(tempo,Us2k(s+PUNTO,:))
+%     xlabel('Time [s]')
+%     title(['Sleeper acceleration [m/s^2]'])
+%     axis([0,1.4,-70,70])
+%rotaia
+% plot(tempo,US2(884,1:size(US2,2)))
+%     xlabel('Time [s]')
+%     title(['Rail acceleration [m/s^2]'])
+%     axis([0,1.4,-150,150])
